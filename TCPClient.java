@@ -9,6 +9,7 @@ class TCPClient {
    {
       String username;
       String password;
+      String statusChecking;
       int userOption;
       //String modifiedSentence;
       // Get the buffer from the reader
@@ -38,8 +39,10 @@ class TCPClient {
                               + "3.Get my messages\n"
                               + "4.Exit");
          //user chose which one
+         System.out.println("Please enter one number:");
          Scanner input = new Scanner(System.in);
          userOption = input.nextInt();
+
          if(userOption == 0) {
             System.out.println("Please enter your name: ");
             username = inFromUser.readLine();
@@ -49,8 +52,22 @@ class TCPClient {
             password = inFromUser.readLine();
             outToServer.writeBytes(password + '\n');
 
+            statusChecking = inFromServer.readLine();
+            System.out.println("From Server:"+ statusChecking+'\n');
+
             
          } else if (userOption == 1){
+            outToServer.writeBytes("get_user_list\n");
+
+            // Receive list of usernames from server
+            String userListString = inFromServer.readLine();
+            String[] userList = userListString.split(",");
+
+            // Print list of usernames to user
+            System.out.println("List of usernames:");
+            for (String userName : userList) {
+               System.out.println(userName);
+            }
 
          } else if (userOption == 2){
 
