@@ -15,7 +15,6 @@ class TCPClient {
         // Get the inputBuffer
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-
         while (working) {
 
             // print options
@@ -46,8 +45,8 @@ class TCPClient {
 
                 case "1":
                     System.out.println("All User List is:");
-                    String user = inFromServer.readLine();
-                    System.out.println(user);
+                    String allUser = inFromServer.readLine();
+                    System.out.println(allUser);
                     break;
 
                 case "2":
@@ -61,10 +60,15 @@ class TCPClient {
                     break;
 
                 case "3":
-                    System.out.println("Your messages:");
-                    String answer = inFromServer.readLine();
-                    System.out.println(answer);
+                    System.out.println("Retrieving your messages...");
+                    System.out.println("Please enter your username: ");
+                    String user = inFromUser.readLine();
+                    outToServer.writeBytes(user + "\n");
+
+                    String messages = inFromServer.readLine();
+                    System.out.println("Your messages: " + messages);
                     break;
+
 
                 case "4":
                     clientSocket.close();
